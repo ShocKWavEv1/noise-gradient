@@ -734,7 +734,7 @@ class Sketch {
     }
     render() {
         if (!this.isPlaying) return;
-        this.time += 0.015;
+        this.time += 0.012;
         this.smallSphere.visible = false;
         this.cubeCamera.update(this.renderer, this.scene);
         this.smallSphere.visible = true;
