@@ -44,8 +44,8 @@ float lines(vec2 uv, float offset){
 
 mat2 rotate2D(float angle){
 	return mat2(
-		cos(angle),-sin(angle),
-		sin(angle),cos(angle)
+		cos(angle / 0.7),-sin(angle),
+		sin(angle / 0.7),cos(angle)
 	);
 }
 
@@ -53,16 +53,16 @@ void main()	{
 
 	vec3 baseFirst =  vec3(136./255., 19./255., 32./255.);
 	vec3 accent =  vec3(4./255., 4./255., 4./255.);
-	vec3 baseSecond =  vec3(225./255., 103./255., 45./255.); 
-	vec3 baseThird = vec3(229./255., 186./255., 121./255.);
+	vec3 baseSecond =  vec3(217./255., 86./255., 39./255.);
+	vec3 baseThird = vec3(217./255., 86./255., 39./255.);
 	float n = noise(vPosition +time);
 	// vec3 color1 = vec3(1.,0.,0.);
 	// vec3 color2 = vec3(0.,1.,0.);
 	// vec3 color3 = vec3(0.,0.,1.);
 
-	vec2 baseUV = rotate2D(n)*vPosition.xy*0.06;
-	float basePattern = lines(baseUV, 0.5);
-	float secondPattern = lines(baseUV, 0.1);
+	vec2 baseUV = rotate2D(n)*vPosition.xy*0.07;
+	float basePattern = lines(baseUV, 0.7);
+	float secondPattern = lines(baseUV, 0.2);
 
 	vec3 baseColor = mix(baseSecond,baseFirst,basePattern);
 	vec3 secondBaseColor = mix(baseColor,accent,secondPattern);
