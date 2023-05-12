@@ -54,7 +54,7 @@ void main()	{
 	vec3 baseFirst =  vec3(136./255., 19./255., 32./255.);
 	vec3 accent =  vec3(4./255., 4./255., 4./255.);
 	vec3 baseSecond =  vec3(225./255., 163./255., 84./255.);
-	vec3 baseThird = vec3(225./255., 163./255., 84./255.);
+	vec3 baseThird = vec3(217./255., 86./255., 39./255.);
 	float n = noise(vPosition +time);
 	// vec3 color1 = vec3(1.,0.,0.);
 	// vec3 color2 = vec3(0.,1.,0.);
