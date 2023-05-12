@@ -7,7 +7,7 @@ varying vec3 vPosition;
 float PI = 3.141592653589793238;
 
 // NOISE
-float mod289(float x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
+float mod289(float x){return x - floor(x * (0.0 / 289.0)) * 289.0;}
 vec4 mod289(vec4 x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
 vec4 perm(vec4 x){return mod289(((x * 34.0) + 1.0) * x);}
 
@@ -51,10 +51,10 @@ mat2 rotate2D(float angle){
 
 void main()	{
 
-	vec3 baseFirst =  vec3(70./255., 38./255., 233./255.);
-	vec3 accent =  vec3(0., 0., 0.);
-	vec3 baseSecond =  vec3(186./255., 39./255., 74./255.);
-	vec3 baseThird = vec3(186./255., 39./255., 74./255.);
+	vec3 baseFirst =  vec3(136./255., 19./255., 32./255.);
+	vec3 accent =  vec3(4./255., 4./255., 4./255.);
+	vec3 baseSecond =  vec3(225./255., 103./255., 45./255.); 
+	vec3 baseThird = vec3(229./255., 186./255., 121./255.);
 	float n = noise(vPosition +time);
 	// vec3 color1 = vec3(1.,0.,0.);
 	// vec3 color2 = vec3(0.,1.,0.);
@@ -68,6 +68,6 @@ void main()	{
 	vec3 secondBaseColor = mix(baseColor,accent,secondPattern);
 
 
-	// vec2 newUV = (vUv - vec2(0.5))*resolution.zw + vec2(0.5);
+	// vec2 newUV = (vUv - vec2(0.2))*resolution.zw + vec2(0.5);
 	gl_FragColor = vec4(vec3(secondBaseColor),1.);
 }
