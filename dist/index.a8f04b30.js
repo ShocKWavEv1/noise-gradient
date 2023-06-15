@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"hSiTh":[function(require,module,exports) {
+})({"fTqHN":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -150,7 +150,7 @@ var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
 module.bundle.HMR_BUNDLE_ID = "62ba0103a8f04b30";
 "use strict";
-/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, globalThis, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
+/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
   HMRAsset,
   HMRMessage,
@@ -214,43 +214,50 @@ function Module(moduleName) {
 }
 module.bundle.Module = Module;
 module.bundle.hotData = {};
-var checkedAssets, assetsToDispose, assetsToAccept /*: Array<[ParcelRequire, string]> */ ;
+var checkedAssets /*: {|[string]: boolean|} */ , assetsToDispose /*: Array<[ParcelRequire, string]> */ , assetsToAccept /*: Array<[ParcelRequire, string]> */ ;
 function getHostname() {
     return HMR_HOST || (location.protocol.indexOf("http") === 0 ? location.hostname : "localhost");
 }
 function getPort() {
     return HMR_PORT || location.port;
-} // eslint-disable-next-line no-redeclare
+}
+// eslint-disable-next-line no-redeclare
 var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
     var hostname = getHostname();
     var port = getPort();
     var protocol = HMR_SECURE || location.protocol == "https:" && !/localhost|127.0.0.1|0.0.0.0/.test(hostname) ? "wss" : "ws";
-    var ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/"); // Web extension context
-    var extCtx = typeof chrome === "undefined" ? typeof browser === "undefined" ? null : browser : chrome; // Safari doesn't support sourceURL in error stacks.
+    var ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/");
+    // Web extension context
+    var extCtx = typeof chrome === "undefined" ? typeof browser === "undefined" ? null : browser : chrome;
+    // Safari doesn't support sourceURL in error stacks.
     // eval may also be disabled via CSP, so do a quick check.
     var supportsSourceURL = false;
     try {
         (0, eval)('throw new Error("test"); //# sourceURL=test.js');
     } catch (err) {
         supportsSourceURL = err.stack.includes("test.js");
-    } // $FlowFixMe
-    ws.onmessage = async function(event) {
+    }
+    // $FlowFixMe
+    ws.onmessage = async function(event /*: {data: string, ...} */ ) {
         checkedAssets = {} /*: {|[string]: boolean|} */ ;
         assetsToAccept = [];
         assetsToDispose = [];
-        var data = JSON.parse(event.data);
+        var data /*: HMRMessage */  = JSON.parse(event.data);
         if (data.type === "update") {
             // Remove error overlay if there is one
             if (typeof document !== "undefined") removeErrorOverlay();
-            let assets = data.assets.filter((asset)=>asset.envHash === HMR_ENV_HASH); // Handle HMR Update
+            let assets = data.assets.filter((asset)=>asset.envHash === HMR_ENV_HASH);
+            // Handle HMR Update
             let handled = assets.every((asset)=>{
                 return asset.type === "css" || asset.type === "js" && hmrAcceptCheck(module.bundle.root, asset.id, asset.depsByBundle);
             });
             if (handled) {
-                console.clear(); // Dispatch custom event so other runtimes (e.g React Refresh) are aware.
+                console.clear();
+                // Dispatch custom event so other runtimes (e.g React Refresh) are aware.
                 if (typeof window !== "undefined" && typeof CustomEvent !== "undefined") window.dispatchEvent(new CustomEvent("parcelhmraccept"));
-                await hmrApplyUpdates(assets); // Dispose all old assets.
+                await hmrApplyUpdates(assets);
+                // Dispose all old assets.
                 let processedAssets = {} /*: {|[string]: boolean|} */ ;
                 for(let i = 0; i < assetsToDispose.length; i++){
                     let id = assetsToDispose[i][1];
@@ -258,7 +265,8 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
                         hmrDispose(assetsToDispose[i][0], id);
                         processedAssets[id] = true;
                     }
-                } // Run accept callbacks. This will also re-execute other disposed assets in topological order.
+                }
+                // Run accept callbacks. This will also re-execute other disposed assets in topological order.
                 processedAssets = {};
                 for(let i = 0; i < assetsToAccept.length; i++){
                     let id = assetsToAccept[i][1];
@@ -278,7 +286,8 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
             if (typeof document !== "undefined") {
                 // Render the fancy html overlay
                 removeErrorOverlay();
-                var overlay = createErrorOverlay(data.diagnostics.html); // $FlowFixMe
+                var overlay = createErrorOverlay(data.diagnostics.html);
+                // $FlowFixMe
                 document.body.appendChild(overlay);
             }
         }
@@ -344,12 +353,16 @@ function getParents(bundle, id) /*: Array<[ParcelRequire, string]> */ {
     return parents;
 }
 function updateLink(link) {
+    var href = link.getAttribute("href");
+    if (!href) return;
     var newLink = link.cloneNode();
     newLink.onload = function() {
         if (link.parentNode !== null) // $FlowFixMe
         link.parentNode.removeChild(link);
     };
-    newLink.setAttribute("href", link.getAttribute("href").split("?")[0] + "?" + Date.now()); // $FlowFixMe
+    newLink.setAttribute("href", // $FlowFixMe
+    href.split("?")[0] + "?" + Date.now());
+    // $FlowFixMe
     link.parentNode.insertBefore(newLink, link.nextSibling);
 }
 var cssTimeout = null;
@@ -359,7 +372,7 @@ function reloadCSS() {
         var links = document.querySelectorAll('link[rel="stylesheet"]');
         for(var i = 0; i < links.length; i++){
             // $FlowFixMe[incompatible-type]
-            var href = links[i].getAttribute("href");
+            var href /*: string */  = links[i].getAttribute("href");
             var hostname = getHostname();
             var servedFromHMRServer = hostname === "localhost" ? new RegExp("^(https?:\\/\\/(0.0.0.0|127.0.0.1)|localhost):" + getPort()).test(href) : href.indexOf(hostname + ":" + getPort());
             var absolute = /^https?:\/\//i.test(href) && href.indexOf(location.origin) !== 0 && !servedFromHMRServer;
@@ -436,7 +449,7 @@ async function hmrApplyUpdates(assets) {
         });
     }
 }
-function hmrApply(bundle, asset) {
+function hmrApply(bundle /*: ParcelRequire */ , asset /*:  HMRAsset */ ) {
     var modules = bundle.modules;
     if (!modules) return;
     if (asset.type === "css") reloadCSS();
@@ -456,7 +469,7 @@ function hmrApply(bundle, asset) {
             if (supportsSourceURL) // Global eval. We would use `new Function` here but browser
             // support for source maps is better with eval.
             (0, eval)(asset.output);
-             // $FlowFixMe
+            // $FlowFixMe
             let fn = global.parcelHotUpdate[asset.id];
             modules[asset.id] = [
                 fn,
@@ -475,17 +488,19 @@ function hmrDelete(bundle, id) {
         for(let dep in deps){
             let parents = getParents(module.bundle.root, deps[dep]);
             if (parents.length === 1) orphans.push(deps[dep]);
-        } // Delete the module. This must be done before deleting dependencies in case of circular dependencies.
+        }
+        // Delete the module. This must be done before deleting dependencies in case of circular dependencies.
         delete modules[id];
-        delete bundle.cache[id]; // Now delete the orphans.
+        delete bundle.cache[id];
+        // Now delete the orphans.
         orphans.forEach((id)=>{
             hmrDelete(module.bundle.root, id);
         });
     } else if (bundle.parent) hmrDelete(bundle.parent, id);
 }
-function hmrAcceptCheck(bundle, id, depsByBundle) {
+function hmrAcceptCheck(bundle /*: ParcelRequire */ , id /*: string */ , depsByBundle /*: ?{ [string]: { [string]: string } }*/ ) {
     if (hmrAcceptCheckOne(bundle, id, depsByBundle)) return true;
-     // Traverse parents breadth first. All possible ancestries must accept the HMR update, or we'll reload.
+    // Traverse parents breadth first. All possible ancestries must accept the HMR update, or we'll reload.
     let parents = getParents(module.bundle.root, id);
     let accepted = false;
     while(parents.length > 0){
@@ -506,7 +521,7 @@ function hmrAcceptCheck(bundle, id, depsByBundle) {
     }
     return accepted;
 }
-function hmrAcceptCheckOne(bundle, id, depsByBundle) {
+function hmrAcceptCheckOne(bundle /*: ParcelRequire */ , id /*: string */ , depsByBundle /*: ?{ [string]: { [string]: string } }*/ ) {
     var modules = bundle.modules;
     if (!modules) return;
     if (depsByBundle && !depsByBundle[bundle.HMR_BUNDLE_ID]) {
@@ -530,7 +545,7 @@ function hmrAcceptCheckOne(bundle, id, depsByBundle) {
         return true;
     }
 }
-function hmrDispose(bundle, id) {
+function hmrDispose(bundle /*: ParcelRequire */ , id /*: string */ ) {
     var cached = bundle.cache[id];
     bundle.hotData[id] = {};
     if (cached && cached.hot) cached.hot.data = bundle.hotData[id];
@@ -539,9 +554,10 @@ function hmrDispose(bundle, id) {
     });
     delete bundle.cache[id];
 }
-function hmrAccept(bundle, id) {
+function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
     // Execute the module.
-    bundle(id); // Run the accept callbacks in the new version of the module.
+    bundle(id);
+    // Run the accept callbacks in the new version of the module.
     var cached = bundle.cache[id];
     if (cached && cached.hot && cached.hot._acceptCallbacks.length) cached.hot._acceptCallbacks.forEach(function(cb) {
         var assetsToAlsoAccept = cb(function() {
@@ -550,7 +566,8 @@ function hmrAccept(bundle, id) {
         if (assetsToAlsoAccept && assetsToAccept.length) {
             assetsToAlsoAccept.forEach(function(a) {
                 hmrDispose(a[0], a[1]);
-            }); // $FlowFixMe[method-unbinding]
+            });
+            // $FlowFixMe[method-unbinding]
             assetsToAccept.push.apply(assetsToAccept, assetsToAlsoAccept);
         }
     });
@@ -591,10 +608,10 @@ class Sketch {
         this.renderer.physicallyCorrectLights = true;
         this.renderer.outputEncoding = _three.sRGBEncoding;
         this.container.appendChild(this.renderer.domElement);
-        this.camera = new _three.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.001, 1000);
-        // var frustumSize = 10;
-        // var aspect = window.innerWidth / window.innerHeight;
-        // this.camera = new THREE.OrthographicCamera( frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, -1000, 1000 );
+        this.camera = new _three.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.001, 1000);
+        var frustumSize = 1;
+        var aspect = window.innerWidth / window.innerHeight;
+        this.camera = new _three.OrthographicCamera(frustumSize * aspect / -24, frustumSize * aspect / 2, frustumSize / 2, frustumSize / -2, -1000, 1000);
         this.camera.position.set(0, 0, 1.3);
         this.time = 0;
         this.isPlaying = true;
@@ -608,7 +625,7 @@ class Sketch {
         let that = this;
         this.settings = {
             progress: 0,
-            mRefractionRatio: 1.02,
+            mRefractionRatio: 1.2,
             mFresnelBias: 0.1,
             mFresnelScale: 4.,
             mFresnelPower: 2.
@@ -684,7 +701,7 @@ class Sketch {
             vertexShader: (0, _vertexGlslDefault.default),
             fragmentShader: (0, _fragmentGlslDefault.default)
         });
-        this.geometry = new _three.SphereBufferGeometry(1.5, 32, 32);
+        this.geometry = new _three.SphereBufferGeometry(1.5, 38, 32);
         this.plane = new _three.Mesh(this.geometry, this.material);
         this.scene.add(this.plane);
         let geo = new _three.SphereBufferGeometry(0.4, 32, 32);
@@ -30465,7 +30482,7 @@ class MapControls extends OrbitControls {
 }
 
 },{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"501kY":[function(require,module,exports) {
-module.exports = "#define GLSLIFY 1\nuniform float time;\nuniform float progress;\nuniform sampler2D texture1;\nuniform vec4 resolution;\nvarying vec2 vUv;\nvarying vec3 vPosition;\nfloat PI = 3.141592653589793238;\n\n// NOISE\nfloat mod289(float x){return x - floor(x * (0.0 / 289.0)) * 289.0;}\nvec4 mod289(vec4 x){return x - floor(x * (1.0 / 289.0)) * 289.0;}\nvec4 perm(vec4 x){return mod289(((x * 34.0) + 1.0) * x);}\n\nfloat noise(vec3 p){\n    vec3 a = floor(p);\n    vec3 d = p - a;\n    d = d * d * (3.0 - 2.0 * d);\n\n    vec4 b = a.xxyy + vec4(0.0, 1.0, 0.0, 1.0);\n    vec4 k1 = perm(b.xyxy);\n    vec4 k2 = perm(k1.xyxy + b.zzww);\n\n    vec4 c = k2 + a.zzzz;\n    vec4 k3 = perm(c);\n    vec4 k4 = perm(c + 1.0);\n\n    vec4 o1 = fract(k3 * (1.0 / 41.0));\n    vec4 o2 = fract(k4 * (1.0 / 41.0));\n\n    vec4 o3 = o2 * d.z + o1 * (1.0 - d.z);\n    vec2 o4 = o3.yw * d.x + o3.xz * (1.0 - d.x);\n\n    return o4.y * d.y + o4.x * (1.0 - d.y);\n}\n\nfloat lines(vec2 uv, float offset){\n	return smoothstep(\n		0., 0.5 + offset*0.5,\n		0.5*abs((sin(uv.x*35.) + offset*2.))\n	);\n}\n\nmat2 rotate2D(float angle){\n	return mat2(\n		cos(angle),-sin(angle),\n		sin(angle),cos(angle)\n	);\n}\n\nvoid main()	{\n\n	vec3 baseFirst =  vec3(248./255., 34./255., 34./255.);\n	vec3 accent =  vec3(4./255., 4./255., 4./255.);\n	vec3 baseSecond =  vec3(254./255., 235./255., 129./255.);\n	vec3 baseThird = vec3(254./255., 235./255., 129./255.);\n	float n = noise(vPosition +time);\n	// vec3 color1 = vec3(1.,0.,0.);\n	// vec3 color2 = vec3(0.,1.,0.);\n	// vec3 color3 = vec3(0.,0.,1.);\n\n	vec2 baseUV = rotate2D(n)*vPosition.xy*0.07;\n	float basePattern = lines(baseUV, 0.7);\n	float secondPattern = lines(baseUV, 0.2);\n\n	vec3 baseColor = mix(baseSecond,baseFirst,basePattern);\n	vec3 secondBaseColor = mix(baseColor,accent,secondPattern);\n\n	// vec2 newUV = (vUv - vec2(0.2))*resolution.zw + vec2(0.5);\n	gl_FragColor = vec4(vec3(secondBaseColor),1.);\n}";
+module.exports = "#define GLSLIFY 1\nuniform float time;\nuniform float progress;\nuniform sampler2D texture1;\nuniform vec4 resolution;\nvarying vec2 vUv;\nvarying vec3 vPosition;\nfloat PI = 3.141592653589793238;\n\n// NOISE\nfloat mod289(float x){return x - floor(x * (0.0 / 289.0)) * 289.0;}\nvec4 mod289(vec4 x){return x - floor(x * (1.0 / 289.0)) * 289.0;}\nvec4 perm(vec4 x){return mod289(((x * 34.0) + 1.0) * x);}\n\nfloat noise(vec3 p){\n    vec3 a = floor(p);\n    vec3 d = p - a;\n    d = d * d * (3.0 - 2.0 * d);\n\n    vec4 b = a.xxyy + vec4(0.0, 1.0, 0.0, 1.0);\n    vec4 k1 = perm(b.xyxy);\n    vec4 k2 = perm(k1.xyxy + b.zzww);\n\n    vec4 c = k2 + a.zzzz;\n    vec4 k3 = perm(c);\n    vec4 k4 = perm(c + 1.0);\n\n    vec4 o1 = fract(k3 * (1.0 / 41.0));\n    vec4 o2 = fract(k4 * (1.0 / 41.0));\n\n    vec4 o3 = o2 * d.z + o1 * (1.0 - d.z);\n    vec2 o4 = o3.yw * d.x + o3.xz * (1.0 - d.x);\n\n    return o4.y * d.y + o4.x * (1.0 - d.y);\n}\n\nfloat lines(vec2 uv, float offset){\n	return smoothstep(\n		0., 0.5 + offset*0.5,\n		0.5*abs((sin(uv.x*35.) + offset*2.))\n	);\n}\n\nmat2 rotate2D(float angle){\n	return mat2(\n		cos(angle),-sin(angle),\n		sin(angle),cos(angle)\n	);\n}\n\nvoid main()	{\n\n	vec3 baseFirst =  vec3(201./255., 33./255., 102./255.);\n	vec3 accent =  vec3(4./255., 4./255., 4./255.);\n	vec3 baseSecond =  vec3(234./255., 42./255., 56./255.);\n	vec3 baseThird = vec3(240./255., 181./255., 37./255.);\n	float n = noise(vPosition +time);\n	vec3 color1 = vec3(1.,0.,0.);\n	vec3 color2 = vec3(0.,1.,0.);\n	vec3 color3 = vec3(0.,0.,1.);\n\n	vec2 baseUV = rotate2D(n)*vPosition.xy*0.07;\n	float basePattern = lines(baseUV, 0.8);\n	float secondPattern = lines(baseUV, 0.1);\n\n	vec3 baseColor = mix(baseSecond,baseFirst,basePattern);\n	vec3 secondBaseColor = mix(baseColor,accent,secondPattern);\n\n	vec2 newUV = (vUv - vec2(0.2))*resolution.zw + vec2(0.5);\n	gl_FragColor = vec4(vec3(secondBaseColor),1.);\n}";
 
 },{}],"aKFgV":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\n\nuniform samplerCube tCube;\nvarying vec3 vPosition;\n\nvarying vec3 vReflect;\nvarying vec3 vRefract[3];\nvarying float vReflectionFactor;\n\nvoid main() {\n\n	vec4 reflectedColor = textureCube( tCube, vec3( -vReflect.x, vReflect.yz ) );\n	vec4 refractedColor = vec4( 1.0 );\n\n	refractedColor.r = textureCube( tCube, vec3( vRefract[0].x, vRefract[0].yz ) ).r;\n	refractedColor.g = textureCube( tCube, vec3( vRefract[1].x, vRefract[1].yz ) ).g;\n	refractedColor.b = textureCube( tCube, vec3( vRefract[2].x, vRefract[2].yz ) ).b;\n\n	gl_FragColor = mix( refractedColor, reflectedColor, clamp( vReflectionFactor, 0.0, 1.0 ) );\n\n	// gl_FragColor = vec4(vec3(vReflectionFactor),1.);\n	// gl_FragColor = reflectedColor;\n\n}";
@@ -32324,7 +32341,7 @@ function _inheritsLoose(subClass, superClass) {
     subClass.__proto__ = superClass;
 }
 /*!
- * GSAP 3.11.5
+ * GSAP 3.12.1
  * https://greensock.com
  *
  * @license Copyright 2008-2023, GreenSock. All rights reserved.
@@ -32492,7 +32509,7 @@ _parseRelative = function _parseRelative(start, value) {
     else if (parent[lastProp] === child) parent[lastProp] = prev;
     child._next = child._prev = child.parent = null; // don't delete the _dp just so we can revert if necessary. But parent should be null to indicate the item isn't in a linked list.
 }, _removeFromParent = function _removeFromParent(child, onlyIfParentHasAutoRemove) {
-    child.parent && (!onlyIfParentHasAutoRemove || child.parent.autoRemoveChildren) && child.parent.remove(child);
+    child.parent && (!onlyIfParentHasAutoRemove || child.parent.autoRemoveChildren) && child.parent.remove && child.parent.remove(child);
     child._act = 0;
 }, _uncache = function _uncache(animation, child) {
     if (animation && (!child || child._end > animation._dur || child._start < 0)) {
@@ -32931,42 +32948,41 @@ distribute = function distribute(v) {
     animation.progress() < 1 && _callback(animation, "onInterrupt");
     return animation;
 }, _quickTween, _registerPluginQueue = [], _createPlugin = function _createPlugin(config) {
-    if (!_windowExists()) {
-        _registerPluginQueue.push(config);
-        return;
-    }
-    config = !config.name && config["default"] || config; //UMD packaging wraps things oddly, so for example MotionPathHelper becomes {MotionPathHelper:MotionPathHelper, default:MotionPathHelper}.
-    var name = config.name, isFunc = _isFunction(config), Plugin = name && !isFunc && config.init ? function() {
-        this._props = [];
-    } : config, //in case someone passes in an object that's not a plugin, like CustomEase
-    instanceDefaults = {
-        init: _emptyFunc,
-        render: _renderPropTweens,
-        add: _addPropTween,
-        kill: _killPropTweensOf,
-        modifier: _addPluginModifier,
-        rawVars: 0
-    }, statics = {
-        targetTest: 0,
-        get: 0,
-        getSetter: _getSetter,
-        aliases: {},
-        register: 0
-    };
-    _wake();
-    if (config !== Plugin) {
-        if (_plugins[name]) return;
-        _setDefaults(Plugin, _setDefaults(_copyExcluding(config, instanceDefaults), statics)); //static methods
-        _merge(Plugin.prototype, _merge(instanceDefaults, _copyExcluding(config, statics))); //instance methods
-        _plugins[Plugin.prop = name] = Plugin;
-        if (config.targetTest) {
-            _harnessPlugins.push(Plugin);
-            _reservedProps[name] = 1;
+    if (_windowExists() && config) {
+        // edge case: some build tools may pass in a null/undefined value
+        config = !config.name && config["default"] || config; //UMD packaging wraps things oddly, so for example MotionPathHelper becomes {MotionPathHelper:MotionPathHelper, default:MotionPathHelper}.
+        var name = config.name, isFunc = _isFunction(config), Plugin = name && !isFunc && config.init ? function() {
+            this._props = [];
+        } : config, //in case someone passes in an object that's not a plugin, like CustomEase
+        instanceDefaults = {
+            init: _emptyFunc,
+            render: _renderPropTweens,
+            add: _addPropTween,
+            kill: _killPropTweensOf,
+            modifier: _addPluginModifier,
+            rawVars: 0
+        }, statics = {
+            targetTest: 0,
+            get: 0,
+            getSetter: _getSetter,
+            aliases: {},
+            register: 0
+        };
+        _wake();
+        if (config !== Plugin) {
+            if (_plugins[name]) return;
+            _setDefaults(Plugin, _setDefaults(_copyExcluding(config, instanceDefaults), statics)); //static methods
+            _merge(Plugin.prototype, _merge(instanceDefaults, _copyExcluding(config, statics))); //instance methods
+            _plugins[Plugin.prop = name] = Plugin;
+            if (config.targetTest) {
+                _harnessPlugins.push(Plugin);
+                _reservedProps[name] = 1;
+            }
+            name = (name === "css" ? "CSS" : name.charAt(0).toUpperCase() + name.substr(1)) + "Plugin"; //for the global name. "motionPath" should become MotionPathPlugin
         }
-        name = (name === "css" ? "CSS" : name.charAt(0).toUpperCase() + name.substr(1)) + "Plugin"; //for the global name. "motionPath" should become MotionPathPlugin
-    }
-    _addGlobal(name, Plugin);
-    config.register && config.register(gsap, Plugin, PropTween);
+        _addGlobal(name, Plugin);
+        config.register && config.register(gsap, Plugin, PropTween);
+    } else config && _registerPluginQueue.push(config);
 }, /*
  * --------------------------------------------------------------------------------------
  * COLORS
@@ -34823,7 +34839,7 @@ _globalTimeline = new Timeline({
     smoothChildTiming: true
 });
 _config.stringFilter = _colorStringFilter;
-var _media = [], _listeners = {}, _emptyArray = [], _lastMediaTime = 0, _dispatch = function _dispatch(type) {
+var _media = [], _listeners = {}, _emptyArray = [], _lastMediaTime = 0, _contextID = 0, _dispatch = function _dispatch(type) {
     return (_listeners[type] || _emptyArray).map(function(f) {
         return f();
     });
@@ -34860,6 +34876,7 @@ var Context = /*#__PURE__*/ function() {
         this.data = [];
         this._r = []; // returned/cleanup functions
         this.isReverted = false;
+        this.id = _contextID++; // to work around issues that frameworks like Vue cause by making things into Proxies which make it impossible to do something like _media.indexOf(this) because "this" would no longer refer to the Context instance itself - it'd refer to a Proxy! We needed a way to identify the context uniquely
         func && this.add(func);
     }
     var _proto5 = Context.prototype;
@@ -34929,7 +34946,7 @@ var Context = /*#__PURE__*/ function() {
                 return o.t.revert(revert);
             }); // note: all of the _startAt tweens should be reverted in reverse order that they were created, and they'll all have the same globalTime (-1) so the " || -1" in the sort keeps the order properly.
             this.data.forEach(function(e) {
-                return !(e instanceof Animation) && e.revert && e.revert(revert);
+                return e instanceof Timeline ? e.data !== "nested" && e.kill() : !(e instanceof Tween) && e.revert && e.revert(revert);
             });
             this._r.forEach(function(f) {
                 return f(revert, _this4);
@@ -34940,8 +34957,9 @@ var Context = /*#__PURE__*/ function() {
         });
         this.clear();
         if (matchMedia) {
-            var i = _media.indexOf(this);
-            !!~i && _media.splice(i, 1);
+            var i = _media.length;
+            while(i--)// previously, we checked _media.indexOf(this), but some frameworks like Vue enforce Proxy objects that make it impossible to get the proper result that way, so we must use a unique ID number instead.
+            _media[i].id === this.id && _media.splice(i, 1);
         }
     };
     _proto5.revert = function revert(config) {
@@ -34960,6 +34978,7 @@ var MatchMedia = /*#__PURE__*/ function() {
             matches: conditions
         });
         var context = new Context(0, scope || this.scope), cond = context.conditions = {}, mq, p, active;
+        _context && !context.selector && (context.selector = _context.selector); // in case a context is created inside a context. Like a gsap.matchMedia() that's inside a scoped gsap.context()
         this.contexts.push(context);
         func = context.add("onMatch", func);
         context.queries = conditions;
@@ -35239,14 +35258,14 @@ var gsap = _gsap.registerPlugin({
         while(i--)this.add(target, i, target[i] || 0, value[i], 0, 0, 0, 0, 0, 1);
     }
 }, _buildModifierPlugin("roundProps", _roundModifier), _buildModifierPlugin("modifiers"), _buildModifierPlugin("snap", snap)) || _gsap; //to prevent the core plugins from being dropped via aggressive tree shaking, we must include them in the variable declaration in this way.
-Tween.version = Timeline.version = gsap.version = "3.11.5";
+Tween.version = Timeline.version = gsap.version = "3.12.1";
 _coreReady = 1;
 _windowExists() && _wake();
 var Power0 = _easeMap.Power0, Power1 = _easeMap.Power1, Power2 = _easeMap.Power2, Power3 = _easeMap.Power3, Power4 = _easeMap.Power4, Linear = _easeMap.Linear, Quad = _easeMap.Quad, Cubic = _easeMap.Cubic, Quart = _easeMap.Quart, Quint = _easeMap.Quint, Strong = _easeMap.Strong, Elastic = _easeMap.Elastic, Back = _easeMap.Back, SteppedEase = _easeMap.SteppedEase, Bounce = _easeMap.Bounce, Sine = _easeMap.Sine, Expo = _easeMap.Expo, Circ = _easeMap.Circ;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l02JQ":[function(require,module,exports) {
 /*!
- * CSSPlugin 3.11.5
+ * CSSPlugin 3.12.1
  * https://greensock.com
  *
  * Copyright 2008-2023, GreenSock. All rights reserved.
@@ -35300,7 +35319,7 @@ _renderRoundedCSSProp = function _renderRoundedCSSProp(ratio, data) {
 }, _transformProp = "transform", _transformOriginProp = _transformProp + "Origin", _saveStyle = function _saveStyle(property, isNotCSS) {
     var _this = this;
     var target = this.target, style = target.style;
-    if (property in _transformProps) {
+    if (property in _transformProps && style) {
         this.tfm = this.tfm || {};
         if (property !== "transform") {
             property = _propertyAliases[property] || property;
@@ -36709,6 +36728,6 @@ class RenderPass extends (0, _passJs.Pass) {
     }
 }
 
-},{"three":"ktPTu","./Pass.js":"i2IfB","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["hSiTh","5AKj5"], "5AKj5", "parcelRequire94c2")
+},{"three":"ktPTu","./Pass.js":"i2IfB","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fTqHN","5AKj5"], "5AKj5", "parcelRequire94c2")
 
 //# sourceMappingURL=index.a8f04b30.js.map

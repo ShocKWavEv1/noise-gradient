@@ -32,15 +32,15 @@ export default class Sketch {
     this.container.appendChild(this.renderer.domElement);
 
     this.camera = new THREE.PerspectiveCamera(
-      70,
+      80,
       window.innerWidth / window.innerHeight,
       0.001,
       1000
     );
 
-    // var frustumSize = 10;
-    // var aspect = window.innerWidth / window.innerHeight;
-    // this.camera = new THREE.OrthographicCamera( frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, -1000, 1000 );
+    var frustumSize = 1;
+    var aspect = window.innerWidth / window.innerHeight;
+    this.camera = new THREE.OrthographicCamera( frustumSize * aspect / - 24, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, -1000, 1000 );
     this.camera.position.set(0, 0, 1.3);
     this.time = 0;
 
@@ -57,7 +57,7 @@ export default class Sketch {
     let that = this;
     this.settings = {
       progress: 0,
-      mRefractionRatio: 1.02,
+      mRefractionRatio: 1.2,
       mFresnelBias: 0.1,
       mFresnelScale: 4.,
       mFresnelPower: 2.,
@@ -143,7 +143,7 @@ export default class Sketch {
       fragmentShader: fragment
     });
 
-    this.geometry = new THREE.SphereBufferGeometry(1.5, 32,32);
+    this.geometry = new THREE.SphereBufferGeometry(1.5, 38, 32);
 
     this.plane = new THREE.Mesh(this.geometry, this.material);
     this.scene.add(this.plane);
