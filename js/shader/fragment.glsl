@@ -7,7 +7,7 @@ varying vec3 vPosition;
 float PI = 3.141592653589793238;
 
 // NOISE
-float mod289(float x){return x - floor(x * (0.0 / 289.0)) * 289.0;}
+float mod289(float x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
 vec4 mod289(vec4 x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
 vec4 perm(vec4 x){return mod289(((x * 34.0) + 1.0) * x);}
 
@@ -51,23 +51,26 @@ mat2 rotate2D(float angle){
 
 void main()	{
 
-	vec3 baseFirst =  vec3(201./255., 33./255., 102./255.);
-	vec3 accent =  vec3(4./255., 4./255., 4./255.);
-	vec3 baseSecond =  vec3(234./255., 42./255., 56./255.);
-	vec3 baseThird = vec3(240./255., 181./255., 37./255.);
-	float n = noise(vPosition +time);
-	vec3 color1 = vec3(1.,0.,0.);
-	vec3 color2 = vec3(0.,1.,0.);
-	vec3 color3 = vec3(0.,0.,1.);
 
-	vec2 baseUV = rotate2D(n)*vPosition.xy*0.07;
-	float basePattern = lines(baseUV, 0.8);
-	float secondPattern = lines(baseUV, 0.1);
+
+	vec3 baseFirst = vec3(234./255., 42./255., 56./255.);
+	vec3 accent =  vec3(4./255., 4./255., 4./255.);
+	vec3 baseSecond =  vec3(70./255., 38./255., 233./255.);
+	vec3 baseThird = vec3(70./255., 38./255., 233./255.);
+
+	float n = noise(vPosition +time);
+	// vec3 color1 = vec3(1.,0.,0.);
+	// vec3 color2 = vec3(0.,1.,0.);
+	// vec3 color3 = vec3(0.,0.,1.);
+
+	vec2 baseUV = rotate2D(n)*vPosition.xy*0.06;
+	float basePattern = lines(baseUV, 0.5);
+	float secondPattern = lines(baseUV, 0.2);
 
 	vec3 baseColor = mix(baseSecond,baseFirst,basePattern);
 	vec3 secondBaseColor = mix(baseColor,accent,secondPattern);
 
 
-	vec2 newUV = (vUv - vec2(0.2))*resolution.zw + vec2(0.5);
+	// vec2 newUV = (vUv - vec2(0.5))*resolution.zw + vec2(0.5);
 	gl_FragColor = vec4(vec3(secondBaseColor),1.);
 }
