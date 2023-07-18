@@ -32,7 +32,7 @@ export default class Sketch {
     this.container.appendChild(this.renderer.domElement);
 
     this.camera = new THREE.PerspectiveCamera(
-      80,
+      60,
       window.innerWidth / window.innerHeight,
       0.001,
       1000
@@ -40,8 +40,8 @@ export default class Sketch {
 
     //var frustumSize = 1;
     //var aspect = window.innerWidth / window.innerHeight;
-    //this.camera = new THREE.OrthographicCamera( frustumSize * aspect / - 24, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, -1000, 1000 );
-    this.camera.position.set(0, 0, 1.3);
+    //this.camera = new THREE.OrthographicCamera( frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, -1000, 1000 );
+    this.camera.position.set(0, 0, 1);
     this.time = 0;
 
     this.isPlaying = true;
@@ -83,7 +83,7 @@ export default class Sketch {
     this.composer.addPass( new RenderPass( this.scene, this.camera ) );
 
     const effect1 = new ShaderPass( DotScreenShader );
-    effect1.uniforms[ 'scale' ].value = 4;
+    effect1.uniforms[ 'scale' ].value = 400;
     this.composer.addPass( effect1 );
   }
 

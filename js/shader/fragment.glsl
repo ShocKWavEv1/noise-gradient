@@ -50,13 +50,10 @@ mat2 rotate2D(float angle){
 }
 
 void main()	{
-
-
-
-	vec3 baseFirst = vec3(234./255., 42./255., 56./255.);
-	vec3 accent =  vec3(4./255., 4./255., 4./255.);
-	vec3 baseSecond =  vec3(70./255., 38./255., 233./255.);
-	vec3 baseThird = vec3(70./255., 38./255., 233./255.);
+	vec3 baseFirst = vec3(79./255., 38./255., 233./255.);
+	vec3 accent =  vec3(0./255., 0./255., 0./255.);
+	vec3 baseSecond =  vec3(188./255., 22./255., 42./255.);
+	vec3 baseThird = vec3(79./255., 38./255., 233./255.);
 
 	float n = noise(vPosition +time);
 	// vec3 color1 = vec3(1.,0.,0.);
