@@ -51,7 +51,7 @@ mat2 rotate2D(float angle){
 
 void main()	{
 	vec3 baseFirst = vec3(79./255., 38./255., 233./255.);
-	vec3 accent =  vec3(0./255., 0./255., 0./255.);
+	vec3 accent =  vec3(35./255., 26./255., 28./255.);
 	vec3 baseSecond =  vec3(188./255., 22./255., 42./255.);
 	vec3 baseThird = vec3(79./255., 38./255., 233./255.);
 
