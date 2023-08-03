@@ -203,3 +203,24 @@ export default class Sketch {
 new Sketch({
   dom: document.getElementById("container")
 });
+
+
+/* LENIS DARK	vec3 baseFirst = vec3(79./255., 38./255., 233./255.);
+	vec3 accent =  vec3(0./255., 0./255., 0./255.);
+	vec3 baseSecond =  vec3(183./255., 76./255., 105./255.);
+	vec3 baseThird =  vec3(79./255., 38./255., 233./255.);*/
+
+  /* LEMNIS LIGHT	vec3 baseFirst = vec3(79./255., 38./255., 233./255.);
+	vec3 accent =  vec3(0./255., 0./255., 0./255.);
+	vec3 baseSecond =  vec3(255./255., 152./255., 162./255.);
+	vec3 baseThird =  vec3(79./255., 38./255., 233./255.);*/
+
+  /* RED MONOPO 	vec3 baseFirst = vec3(79./255., 38./255., 233./255.);
+	vec3 accent =  vec3(0./255., 0./255., 0./255.);
+	vec3 baseSecond =  vec3(188./255., 22./255., 42./255.);
+	vec3 baseThird =  vec3(79./255., 38./255., 233./255.);*/
+
+  /* ORANGE MONOPO 	vec3 baseFirst = vec3(238./255., 127./255., 39./255.);
+	vec3 accent =  vec3(0./255., 0./255., 0./255.);
+	vec3 baseSecond =  vec3(188./255., 22./255., 42./255.);
+	vec3 baseThird = vec3(238./255., 127./255., 39./255.);*/
