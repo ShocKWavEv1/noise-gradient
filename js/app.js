@@ -32,7 +32,7 @@ export default class Sketch {
     this.container.appendChild(this.renderer.domElement);
 
     this.camera = new THREE.PerspectiveCamera(
-      30,
+      60,
       window.innerWidth / window.innerHeight,
       0.001,
       1000
