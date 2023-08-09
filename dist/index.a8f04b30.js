@@ -609,9 +609,9 @@ class Sketch {
         this.renderer.outputEncoding = _three.sRGBEncoding;
         this.container.appendChild(this.renderer.domElement);
         this.camera = new _three.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.001, 1000);
-        //var frustumSize = 1;
-        //var aspect = window.innerWidth / window.innerHeight;
-        //this.camera = new THREE.OrthographicCamera( frustumSize * aspect / - 3, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, -1000, 1000 );
+        var frustumSize = 1;
+        var aspect = window.innerWidth / window.innerHeight;
+        this.camera = new _three.OrthographicCamera(frustumSize * aspect / 3, frustumSize * aspect / 2, frustumSize / 2, frustumSize / -2, -1000, 1000);
         this.camera.position.set(0, 0, 1);
         this.time = 0;
         this.isPlaying = true;
@@ -30500,7 +30500,7 @@ module.exports = "#define GLSLIFY 1\nuniform float time;\nuniform float progress
 module.exports = "#define GLSLIFY 1\n\nuniform samplerCube tCube;\nvarying vec3 vPosition;\n\nvarying vec3 vReflect;\nvarying vec3 vRefract[3];\nvarying float vReflectionFactor;\n\nvoid main() {\n\n	vec4 reflectedColor = textureCube( tCube, vec3( -vReflect.x, vReflect.yz ) );\n	vec4 refractedColor = vec4( 1.0 );\n\n	refractedColor.r = textureCube( tCube, vec3( vRefract[0].x, vRefract[0].yz ) ).r;\n	refractedColor.g = textureCube( tCube, vec3( vRefract[1].x, vRefract[1].yz ) ).g;\n	refractedColor.b = textureCube( tCube, vec3( vRefract[2].x, vRefract[2].yz ) ).b;\n\n	gl_FragColor = mix( refractedColor, reflectedColor, clamp( vReflectionFactor, 0.0, 1.0 ) );\n\n	// gl_FragColor = vec4(vec3(vReflectionFactor),1.);\n	// gl_FragColor = reflectedColor;\n\n}";
 
 },{}],"7aGpr":[function(require,module,exports) {
-module.exports = "#define GLSLIFY 1\nuniform float time;\nvarying vec2 vUv;\nvarying vec3 vPosition;\nuniform vec2 pixels;\nfloat PI = 3.141592653589793238;\nvoid main() {\n  vUv = uv;\n  vPosition = position;\n  gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n}";
+module.exports = "#define GLSLIFY 1\nuniform float time;\nvarying vec2 vUv;\nvarying vec3 vPosition;\nuniform vec2 pixels;\nfloat PI = 3.141592653589793238;\nvoid main() {\n  vUv = uv;\n  vPosition = position;\n\n      vec4 rotatedPosition = mat4(\n        cos(90.0), -sin(90.0), 0.0, 0.0,\n        sin(90.0), cos(90.0), 0.0, 0.0,\n        0.0, 0.0, 1.0, 0.0,\n        0.0, 0.0, 0.0, 1.0\n    ) * modelViewMatrix * vec4(position, 1.0);\n\n    gl_Position = projectionMatrix * rotatedPosition;\n}";
 
 },{}],"4YeYc":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nuniform float time;\nvarying vec2 vUv;\nvarying vec3 vPosition;\nuniform vec2 pixels;\nfloat PI = 3.141592653589793238;\n\nvarying vec3 vReflect;\nvarying vec3 vRefract[3];\nvarying float vReflectionFactor;\n\nuniform float mRefractionRatio;\nuniform float mFresnelBias ;\nuniform float mFresnelScale;\nuniform float mFresnelPower;\n\nvoid main() {\n\n  vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n  vec4 worldPosition = modelMatrix * vec4( position, 1.0 );\n\n  vec3 worldNormal = normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );\n\n  vec3 I = worldPosition.xyz - cameraPosition;\n\n  vReflect = reflect( I, worldNormal );\n  vRefract[0] = refract( normalize( I ), worldNormal, mRefractionRatio );\n  vRefract[1] = refract( normalize( I ), worldNormal, mRefractionRatio * 0.99 );\n  vRefract[2] = refract( normalize( I ), worldNormal, mRefractionRatio * 0.98 );\n  vReflectionFactor = mFresnelBias + mFresnelScale * pow( 1.0 + dot( normalize( I ), worldNormal ), mFresnelPower );\n\n  gl_Position = projectionMatrix * mvPosition;\n\n}";
